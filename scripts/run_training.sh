@@ -13,5 +13,5 @@ export TOKENIZERS_PARALLELISM=true
 # Run training
 accelerate launch \
   --mixed_precision fp16 \
-  --main_process_port 29601 \
-  src/train.py
+  --main_process_port 29602 \
+  src/train_PEFT.py
