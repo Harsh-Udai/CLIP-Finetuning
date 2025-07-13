@@ -1,0 +1,33 @@
+# model_name: "openai/clip-vit-base-patch32"
+
+# train_split: "train[:10%]"
+# eval_split: "validation[:5%]"
+
+# train_batch_size: 16
+# eval_batch_size: 32
+# num_epochs: 3
+# learning_rate: 5e-5
+# weight_decay: 0.01
+
+output_dir: "./outputs"
+checkpointing: true
+save_every: 1
+
+mixed_precision: "fp16"  # or "bf16", or "no"
+logging_steps: 20
+
+
+model_name: "openai/clip-vit-base-patch32"
+
+train_image_dir: "/raid/DATASETS/coco/train2017"
+train_annotation_file: "/raid/DATASETS/coco/annotations/captions_train2017_eval_compatible.json"
+
+train_batch_size: 150
+num_epochs: 10
+learning_rate: 5e-5
+weight_decay: 0.01
+
+output_dir: "./outputs"
+mixed_precision: "fp16"
+logging_steps: 20
+max_train_samples: 50000  # Optional for debugging

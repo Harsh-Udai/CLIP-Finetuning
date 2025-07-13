@@ -1,0 +1,4 @@
+compute_environment: LOCAL_MACHINE
+distributed_type: MULTI_GPU
+mixed_precision: fp16
+main_process_port: 29601
