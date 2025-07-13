@@ -4,6 +4,8 @@ from torch.utils.data import DataLoader, Dataset
 import torch
 import sys 
 import os
+from utils import seed_worker
+from PIL import Image
 
 # === Dataset ===
 class LocalCocoCaptionDataset(Dataset):
@@ -43,8 +45,13 @@ class LocalCocoCaptionDataset(Dataset):
             "attention_mask": inputs["attention_mask"].squeeze(0),
         }
 
-def get_dataloader(image_dir, annotation_file, processor, batch_size, shuffle=True, max_samples=None):
+
+
+def get_dataloader(image_dir, annotation_file, processor, batch_size, shuffle=True, max_samples=None, seed=42):
     dataset = LocalCocoCaptionDataset(image_dir, annotation_file, processor, max_samples=max_samples)
+
+    generator = torch.Generator()
+    generator.manual_seed(seed)
 
     def collate_fn(batch):
         return {
@@ -53,4 +60,13 @@ def get_dataloader(image_dir, annotation_file, processor, batch_size, shuffle=Tr
             "attention_mask": torch.stack([x["attention_mask"] for x in batch]),
         }
 
-    return DataLoader(dataset, batch_size=batch_size, shuffle=shuffle, collate_fn=collate_fn)
+    return DataLoader(
+        dataset,
+        batch_size=batch_size,
+        shuffle=shuffle,
+        collate_fn=collate_fn,
+        num_workers=4,
+        worker_init_fn=seed_worker,
+        generator=generator
+    )
+

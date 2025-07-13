@@ -10,7 +10,7 @@ from transformers import CLIPModel, CLIPProcessor, get_cosine_schedule_with_warm
 from accelerate import Accelerator
 
 
-from utils import save_model, log_metrics
+from utils import save_model, log_metrics, set_seed
 from coco import get_dataloader
 
 # === Config ===
@@ -25,6 +25,10 @@ def train():
     config["weight_decay"] = float(config["weight_decay"])
     config["train_batch_size"] = int(config["train_batch_size"])
 
+    # === Seeding ===
+    seed = config.get("seed", int(config["seed"]))
+
+    # Set seed for reproducibilit
     accelerator = Accelerator(mixed_precision=config["mixed_precision"])
     device = accelerator.device
 
@@ -40,8 +44,10 @@ def train():
         processor=processor,
         batch_size=config["train_batch_size"],
         shuffle=True,
-        max_samples=config.get("max_train_samples")
+        max_samples=config.get("max_train_samples"),
+        seed=int(config["seed"])  # pass seed to the dataloader
     )
+
 
     # Optimizer
     optimizer = torch.optim.AdamW(
@@ -102,5 +108,5 @@ def train():
     save_model(model, os.path.join(config["output_dir"], "final"), accelerator, processor)
 
 if __name__ == "__main__":
-    # train()
+    train()
     

@@ -64,8 +64,8 @@ def compute_clip_embeddings(model, processor, images=None, texts=None, batch_siz
 def evaluate_clip_on_coco(image_dir, annotation_file, device="cuda"):
     print(f"Loading dataset from:\n - images: {image_dir}\n - annotations: {annotation_file}")
     dataset = CocoValDataset(image_dir, annotation_file)
-    model = CLIPModel.from_pretrained("outputs/final").to(device)
-    processor = CLIPProcessor.from_pretrained("outputs/final")
+    model = CLIPModel.from_pretrained("saved_model/final").to(device)
+    processor = CLIPProcessor.from_pretrained("saved_model/final")
 
     # model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").to(device)
     # processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")

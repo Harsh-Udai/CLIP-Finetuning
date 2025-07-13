@@ -22,12 +22,13 @@ model_name: "openai/clip-vit-base-patch32"
 train_image_dir: "/raid/DATASETS/coco/train2017"
 train_annotation_file: "/raid/DATASETS/coco/annotations/captions_train2017_eval_compatible.json"
 
-train_batch_size: 150
+train_batch_size: 500
 num_epochs: 10
 learning_rate: 5e-5
 weight_decay: 0.01
 
-output_dir: "./outputs"
+output_dir: "./saved_model"
 mixed_precision: "fp16"
 logging_steps: 20
 max_train_samples: 50000  # Optional for debugging
+seed : 42
